@@ -1,31 +1,56 @@
 package com.tool.hub.serviceImpl;
 
 import com.tool.hub.service.EmailService;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import java.util.List;
+import java.util.Map;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class EmailServiceImpl implements EmailService {
 
-    private final JavaMailSender mailSender;
-
-    public EmailServiceImpl(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
-    }
+    @Value("${brevo.api.key}")
+    private String brevoApiKey;
 
     @Override
     public void sendOtp(String email, String otp) {
-        SimpleMailMessage message = new SimpleMailMessage();
 
-        message.setFrom("dk88107765@gmail.com"); // add here
-        
-        message.setTo(email);
+        RestTemplate restTemplate = new RestTemplate();
 
-        message.setSubject("ToolHub Email Verification");
+        HttpHeaders headers = new HttpHeaders();
 
-        message.setText("Your OTP is : " + otp + "\nValid for 5 minutes.");
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("api-key", brevoApiKey);
 
-        mailSender.send(message);
+        Map<String, Object> requestBody = Map.of(
+            "sender", Map.of(
+                "name", "ToolHub",
+                "email", "dk88107765@gmail.com"
+            ),
+            "to", List.of(
+                Map.of("email", email)
+            ),
+            "subject", "ToolHub Email Verification",
+            "htmlContent",
+            "<h2>Your OTP is: " + otp +
+            "</h2><p>This OTP is valid for 5 minutes.</p>"
+        );
+
+        HttpEntity<Map<String, Object>> request =
+            new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<String> response =
+            restTemplate.postForEntity(
+                "https://api.brevo.com/v3/smtp/email",
+                request,
+                String.class
+            );
+
+        System.out.println("Brevo Response: " + response.getBody());
     }
 }

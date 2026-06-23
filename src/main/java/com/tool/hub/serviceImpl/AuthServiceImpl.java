@@ -63,7 +63,7 @@ public class AuthServiceImpl implements AuthService {
         String otp = String.valueOf((int) ((Math.random() * 900000) + 100000));
         EmailOtp emailOtp = new EmailOtp();
 
-       // emailOtp.setEmail(dto.getEmail());
+        emailOtp.setEmail(dto.getEmail());
 
         emailOtp.setOtp(otp);
 

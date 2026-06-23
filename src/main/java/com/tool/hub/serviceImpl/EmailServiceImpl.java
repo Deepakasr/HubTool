@@ -18,6 +18,8 @@ public class EmailServiceImpl implements EmailService {
     public void sendOtp(String email, String otp) {
         SimpleMailMessage message = new SimpleMailMessage();
 
+        message.setFrom("dk88107765@gmail.com"); // add here
+        
         message.setTo(email);
 
         message.setSubject("ToolHub Email Verification");

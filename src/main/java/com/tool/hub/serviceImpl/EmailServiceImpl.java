@@ -25,6 +25,7 @@ public class EmailServiceImpl implements EmailService {
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         headers.set("api-key", brevoApiKey);
         System.out.println("BREVO KEY = " + brevoApiKey);
 
@@ -45,13 +46,22 @@ public class EmailServiceImpl implements EmailService {
         HttpEntity<Map<String, Object>> request =
             new HttpEntity<>(requestBody, headers);
 
-        ResponseEntity<String> response =
-            restTemplate.postForEntity(
-                "https://api.brevo.com/v3/smtp/email",
-                request,
-                String.class
-            );
+       try {
 
-        System.out.println("Brevo Response: " + response.getBody());
+    ResponseEntity<String> response =
+        restTemplate.postForEntity(
+            "https://api.brevo.com/v3/smtp/email",
+            request,
+            String.class
+        );
+
+    System.out.println("SUCCESS = " + response.getBody());
+
+} catch (Exception e) {
+
+    System.out.println("ERROR = " + e.getMessage());
+
+    throw e;
+}
     }
 }

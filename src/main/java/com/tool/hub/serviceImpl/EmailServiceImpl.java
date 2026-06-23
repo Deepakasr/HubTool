@@ -26,6 +26,7 @@ public class EmailServiceImpl implements EmailService {
 
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("api-key", brevoApiKey);
+        System.out.println("BREVO KEY = " + brevoApiKey);
 
         Map<String, Object> requestBody = Map.of(
             "sender", Map.of(

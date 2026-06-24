@@ -29,4 +29,9 @@ public class AiController {
             return e.getMessage();
         }
     }
+
+    @PostMapping("/generate-image")
+    public String generateImage(@RequestBody AiRequestDto dto) {
+        return aiService.generateImage(dto.getPrompt());
+    }
 }

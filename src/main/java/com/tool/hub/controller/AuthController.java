@@ -9,7 +9,6 @@ import com.tool.hub.dto.VerifyOtpDto;
 import com.tool.hub.service.AuthService;
 import com.tool.hub.service.UserService;
 import java.security.Principal;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

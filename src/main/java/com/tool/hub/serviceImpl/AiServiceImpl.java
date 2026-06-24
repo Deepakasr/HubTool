@@ -50,4 +50,11 @@ public class AiServiceImpl implements AiService {
 
         return restTemplate.postForObject(url, entity, String.class);
     }
+
+    @Override
+    public String generateImage(String prompt) {
+        return (
+            "https://image.pollinations.ai/prompt/" + prompt.replace(" ", "%20")
+        );
+    }
 }

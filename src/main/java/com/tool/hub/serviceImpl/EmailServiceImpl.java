@@ -59,6 +59,11 @@ public class EmailServiceImpl implements EmailService {
 
 } catch (org.springframework.web.client.HttpClientErrorException e) {
 
+           
+    if (e instanceof org.springframework.web.client.HttpClientErrorException ex) {
+        System.out.println("ERROR BODY = " + ex.getResponseBodyAsString());
+    }
+
     System.out.println("STATUS = " + e.getStatusCode());
     System.out.println("BODY = " + e.getResponseBodyAsString());
 

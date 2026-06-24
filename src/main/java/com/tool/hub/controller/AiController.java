@@ -30,7 +30,7 @@ public class AiController {
         }
     }
 
-    @PostMapping("/generate-image")
+    @PostMapping("/generate-images")
     public String generateImage(@RequestBody AiRequestDto dto) {
         return aiService.generateImage(dto.getPrompt());
     }

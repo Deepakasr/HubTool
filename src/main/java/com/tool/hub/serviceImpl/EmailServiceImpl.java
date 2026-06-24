@@ -19,16 +19,13 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendOtp(String email, String otp) {
-<<<<<<< HEAD
 
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
-
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         headers.set("api-key", brevoApiKey);
-        System.out.println("BREVO KEY = " + brevoApiKey);
 
         Map<String, Object> requestBody = Map.of(
             "sender", Map.of(
@@ -47,80 +44,23 @@ public class EmailServiceImpl implements EmailService {
         HttpEntity<Map<String, Object>> request =
             new HttpEntity<>(requestBody, headers);
 
-       try {
+        try {
 
-    ResponseEntity<String> response =
-            restTemplate.postForEntity(
+            ResponseEntity<String> response =
+                restTemplate.postForEntity(
                     "https://api.brevo.com/v3/smtp/email",
                     request,
                     String.class
-            );
-
-    System.out.println("SUCCESS = " + response.getBody());
-
-} catch (org.springframework.web.client.HttpClientErrorException e) {
-
-           
-    if (e instanceof org.springframework.web.client.HttpClientErrorException ex) {
-        System.out.println("ERROR BODY = " + ex.getResponseBodyAsString());
-    }
-
-    System.out.println("STATUS = " + e.getStatusCode());
-    System.out.println("BODY = " + e.getResponseBodyAsString());
-
-    throw e;
-}
-=======
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
-        headers.set("api-key", brevoApiKey);
-        System.out.println("BREVO KEY = " + brevoApiKey);
-
-        Map<String, Object> requestBody = Map.of(
-            "sender",
-            Map.of("name", "ToolHub", "email", "dk88107765@gmail.com"),
-            "to",
-            List.of(Map.of("email", email)),
-            "subject",
-            "ToolHub Email Verification",
-            "htmlContent",
-            "<h2>Your OTP is: " +
-                otp +
-                "</h2><p>This OTP is valid for 5 minutes.</p>"
-        );
-
-        HttpEntity<Map<String, Object>> request = new HttpEntity<>(
-            requestBody,
-            headers
-        );
-
-        try {
-            ResponseEntity<String> response = restTemplate.postForEntity(
-                "https://api.brevo.com/v3/smtp/email",
-                request,
-                String.class
-            );
+                );
 
             System.out.println("SUCCESS = " + response.getBody());
+
         } catch (org.springframework.web.client.HttpClientErrorException e) {
-            if (
-                e instanceof
-                    org.springframework.web.client.HttpClientErrorException ex
-            ) {
-                System.out.println(
-                    "ERROR BODY = " + ex.getResponseBodyAsString()
-                );
-            }
 
             System.out.println("STATUS = " + e.getStatusCode());
             System.out.println("BODY = " + e.getResponseBodyAsString());
 
             throw e;
         }
->>>>>>> 22b3a9b (AI Image Generator Added)
     }
 }

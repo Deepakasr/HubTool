@@ -49,17 +49,18 @@ public class EmailServiceImpl implements EmailService {
        try {
 
     ResponseEntity<String> response =
-        restTemplate.postForEntity(
-            "https://api.brevo.com/v3/smtp/email",
-            request,
-            String.class
-        );
+            restTemplate.postForEntity(
+                    "https://api.brevo.com/v3/smtp/email",
+                    request,
+                    String.class
+            );
 
     System.out.println("SUCCESS = " + response.getBody());
 
-} catch (Exception e) {
+} catch (org.springframework.web.client.HttpClientErrorException e) {
 
-    System.out.println("ERROR = " + e.getMessage());
+    System.out.println("STATUS = " + e.getStatusCode());
+    System.out.println("BODY = " + e.getResponseBodyAsString());
 
     throw e;
 }

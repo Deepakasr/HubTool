@@ -60,7 +60,7 @@ public class AuthServiceImpl implements AuthService {
         user.setRole("USER");
 
         userRepo.save(user);
-        String otp = String.valueOf((int) ((Math.random() * 900000) + 100000));
+        String otp = String.valueOf((int) (Math.random() * 900000 + 100000));
         EmailOtp emailOtp = new EmailOtp();
 
         emailOtp.setEmail(dto.getEmail());
@@ -69,6 +69,8 @@ public class AuthServiceImpl implements AuthService {
 
         emailOtp.setExpiryTime(LocalDateTime.now().plusMinutes(5));
         emailService.sendOtp(dto.getEmail(), otp);
+
+        emailOtpRepo.deleteByEmail(dto.getEmail());
 
         emailOtpRepo.save(emailOtp);
 
